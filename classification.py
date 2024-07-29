@@ -20,7 +20,7 @@ import sklearn.metrics as metrics
 from tensorboardX import SummaryWriter
 
 from model import ClassificationNet
-from original_dataset import Dataset
+from dataset import Dataset
 from utils import Logger
 
 
