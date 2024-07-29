@@ -184,7 +184,7 @@ def visualize(args):
     os.makedirs(save_root, exist_ok=True)
     
     # initialize dataset
-    from original_dataset import Dataset
+    from dataset import Dataset
     dataset = Dataset(root=args.dataset_root, dataset_name=args.dataset, 
                         num_points=args.num_points, split=args.split, load_name=True)
 

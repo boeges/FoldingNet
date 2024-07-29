@@ -18,7 +18,7 @@ import h5py
 from tensorboardX import SummaryWriter
 
 from model import ReconstructionNet, ClassificationNet
-from original_dataset import Dataset
+from dataset import Dataset
 from utils import Logger
 
 
