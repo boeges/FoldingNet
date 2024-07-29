@@ -76,6 +76,9 @@ class OriginalDataset(data.Dataset):
             self.path_json_all.sort()
             self.name = self.load_json(self.path_json_all)    # load label name
         
+        if len(self.path_h5py_all) == 0:
+            print("WARNING: No paths loaded! Perhaps root_path is wrong?")
+
         self.data = np.concatenate(data, axis=0)
         self.label = np.concatenate(label, axis=0) 
 
