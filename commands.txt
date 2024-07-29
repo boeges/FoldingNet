@@ -1,0 +1,25 @@
+
+CUDA_VISIBLE_DEVICES=1 python main.py --exp_name train1 --dataset_root datasets/ --encoder foldnet --k 16 --shape plane --dataset shapenetcorev2 --gpu 0
+ 
+CUDA_VISIBLE_DEVICES=1 python main.py --eval --model_path snapshot/Reconstruct_foldnet_plane/models/shapenetcorev2_278.pkl --dataset_root ./datasets --encoder foldnet --k 16 --shape plane --dataset shapenetcorev2 --batch_size 4 --gpu 0
+
+CUDA_VISIBLE_DEVICES=1 python visualization.py --dataset_root datasets/ --dataset shapenetcorev2 --item 0 --split test --encoder foldnet --k 16 --shape plane --model_path snapshot/Reconstruct_foldnet_plane/models/shapenetcorev2_278.pkl --draw_original --draw_source_points
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
