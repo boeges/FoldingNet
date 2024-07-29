@@ -1,0 +1,11 @@
+(foldingnet) boege@superdell:/hdd/boege/src/foldingnet2$ CUDA_VISIBLE_DEVICES=1 python main.py --exp_name train1 --dataset_root datasets/ --encoder foldnet --k 16 --shape pl
+ane --dataset shapenetcorev2 --gpu 0
+Remove snapshot/Reconstruct_train1/models/ ? (y/n)y
+Namespace(batch_size=16, dataset='shapenetcorev2', dataset_root='datasets/', dropout=0.5, encoder='foldnet', epochs=None, eval=False, exp_name='train1', feat_dims=512, gpu='0', k=16, model_path='', no_cuda=False, num_points=2048, shape='plane', snapshot_interval=10, task='reconstruct', use_jitter=False, use_rotate=False, use_translate=False, workers=16)
+Training set size: 51127
+Training start!!
+Epoch 1: Loss 2203.7373046875, time 229.8107s
+Epoch 2: Loss 435.5923156738281, time 233.3251s
+Epoch 3: Loss 307.1998596191406, time 232.6038s
+
+abort
