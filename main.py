@@ -35,7 +35,7 @@ def get_parser():
                         choices=['plane', 'sphere', 'gaussian'],
                         help='Shape of points to input decoder, [plane, sphere, gaussian]')
     parser.add_argument('--dataset', type=str, default='shapenetcorev2', metavar='N',
-                        choices=['shapenetcorev2','modelnet40', 'modelnet10'],
+                        choices=['shapenetcorev2','modelnet40', 'modelnet10','insect'],
                         help='Encoder to use, [shapenetcorev2,modelnet40, modelnet10]')
     parser.add_argument('--use_rotate', action='store_true',
                         help='Rotate the pointcloud before training')

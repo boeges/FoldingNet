@@ -39,7 +39,7 @@ def rotate_pointcloud(pointcloud):
 
 
 class InsectDataset(data.Dataset):
-    def __init__(self, root, dataset_name='modelnet40', 
+    def __init__(self, root, 
             num_points=2048, split='train', load_name=False,
             random_rotate=False, random_jitter=False, random_translate=False,
             classes=None, use_classes=None):
@@ -52,8 +52,8 @@ class InsectDataset(data.Dataset):
 
         assert num_points <= 2048 # why?
 
-        self.root = os.path.join(root, dataset_name)
-        self.dataset_name = dataset_name
+        self.root = Path(root)
+        self.dataset_name = self.root.name
         self.num_points = num_points
         self.split = split
         self.load_name = load_name
@@ -63,8 +63,6 @@ class InsectDataset(data.Dataset):
         self.classes = classes
         self.use_classes = use_classes
         
-        # dataset directory
-        self.root = root
         # <class_name>:<class_id>
         self.class_id_map = dict(zip(classes, range(len(classes))))
         # <class_id>:<class_name>
@@ -72,7 +70,7 @@ class InsectDataset(data.Dataset):
 
         self.samples = []
         skipped_count = 0
-        for f in Path(root).glob("*/*.csv"):
+        for f in self.root.glob("*/*.csv"):
             clas = f.parent.name
             if use_classes is not None and clas not in use_classes:
                 # skip this sample if class is not used
@@ -99,7 +97,7 @@ class InsectDataset(data.Dataset):
 
         # convert numpy array to pytorch Tensor
         point_set = torch.from_numpy(point_set)
-        label = torch.from_numpy(np.array([label]).astype(np.int64))
+        label = torch.from_numpy(np.array([class_id]).astype(np.int64))
         label = label.squeeze(0)
         
         if self.load_name:

@@ -28,9 +28,13 @@ class Dataset(data.Dataset):
             "insect"]
 
         if dataset_name.lower() == "insect":
-            self._dataset = InsectDataset(root, dataset_name=dataset_name, 
+            classes = ["other","insect","bee","butterfly","dragonfly","wasp"]
+            use_classes = ["insect","bee","butterfly","dragonfly","wasp"]
+            # Load
+            self._dataset = InsectDataset(root, 
                     num_points=num_points, split=split, load_name=load_name,
-                    random_rotate=random_rotate, random_jitter=random_jitter, random_translate=random_translate)
+                    random_rotate=random_rotate, random_jitter=random_jitter, random_translate=random_translate,
+                    classes=classes, use_classes=use_classes)
         else:
             self._dataset = OriginalDataset(root, dataset_name=dataset_name, 
                     num_points=num_points, split=split, load_name=load_name,

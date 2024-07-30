@@ -14,6 +14,7 @@ import shutil
 import torch
 import torch.optim as optim
 import numpy as np
+from tqdm import tqdm
 
 from tensorboardX import SummaryWriter
 
@@ -56,8 +57,8 @@ class Reconstruction(object):
             if not os.path.exists(self.save_dir):
                 os.makedirs(self.save_dir)
             else:
-                choose = input("Remove " + self.save_dir + " ? (y/n)")
-                if choose == "y":
+                choose = input("Remove " + self.save_dir + " ? ([y]/n)")
+                if choose == "y" or choose == "":
                     shutil.rmtree(self.save_dir)
                     os.makedirs(self.save_dir)
                 else:
@@ -120,7 +121,7 @@ class Reconstruction(object):
             'total_time': []
         }
         best_loss = 1000000000
-        print('Training start!!')
+        print(f'Training start! epochs={self.epochs}')
         start_time = time.time()
         self.model.train()
         if self.model_path != '':
@@ -160,7 +161,7 @@ class Reconstruction(object):
         epoch_start_time = time.time()
         loss_buf = []
         num_batch = int(len(self.train_loader.dataset) / self.batch_size)
-        for iter, (pts, _) in enumerate(self.train_loader):
+        for iter, (pts, _) in tqdm(enumerate(self.train_loader), total=len(self.train_loader), smoothing=0.9):
             if not self.no_cuda:
                 pts = pts.cuda(self.first_gpu)
 
