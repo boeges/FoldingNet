@@ -1,10 +1,14 @@
 # train
 CUDA_VISIBLE_DEVICES=1 python main.py --exp_name train1 --dataset_root datasets/ --encoder foldnet --k 16 --shape plane --dataset shapenetcorev2 --gpu 0
-CUDA_VISIBLE_DEVICES=1 python main.py --exp_name insect1 --dataset_root ..\..\datasets\insect\100ms_2048pts_fps-ds_sor-nr_norm_shufflet_1\ --encoder foldnet --k 16 --shape plane --dataset insect --gpu 0 --batch_size 16 --workers 2
+
+CUDA_VISIBLE_DEVICES=1 python main.py --exp_name insect1 --dataset_root ../../datasets/insect/100ms_2048pts_fps-ds_sor-nr_norm_shufflet_1 --encoder foldnet --k 16 --shape plane --dataset insect --gpu 0 --batch_size 16 --workers 2
+CUDA_VISIBLE_DEVICES=1 python main.py --exp_name insect_foldnet_gaussian_k20_e400 --dataset_root ../../datasets/insect/100ms_2048pts_fps-ds_sor-nr_norm_shufflet_1 --encoder foldnet --k 20 --shape gaussian --dataset insect --gpu 0 --batch_size 16 --workers 4 --epochs 400
 
 
 # test
 CUDA_VISIBLE_DEVICES=1 python main.py --eval --model_path snapshot/Reconstruct_foldnet_plane/models/shapenetcorev2_278.pkl --dataset_root ./datasets --encoder foldnet --k 16 --shape plane --dataset shapenetcorev2 --batch_size 4 --gpu 0
+
+CUDA_VISIBLE_DEVICES=2 python main.py --eval --model_path snapshot/Reconstruct_insect_foldnet_gaussian_k20_e400/models/insect_400.pkl --dataset_root ../../datasets/insect/100ms_2048pts_fps-ds_sor-nr_norm_shufflet_1/ --encoder foldnet --k 20 --shape gaussian --dataset insect --batch_size 16 --gpu 0 --workers 4
 
 
 # vis

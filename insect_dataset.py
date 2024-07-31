@@ -40,7 +40,7 @@ def rotate_pointcloud(pointcloud):
 
 class InsectDataset(data.Dataset):
     def __init__(self, root, 
-            num_points=2048, split='train', load_name=False,
+            num_points=2048, split='train', load_name=False, load_path=False,
             random_rotate=False, random_jitter=False, random_translate=False,
             classes=None, use_classes=None):
         """
@@ -57,6 +57,7 @@ class InsectDataset(data.Dataset):
         self.num_points = num_points
         self.split = split
         self.load_name = load_name
+        self.load_path = load_path
         self.random_rotate = random_rotate
         self.random_jitter = random_jitter
         self.random_translate = random_translate
@@ -86,7 +87,8 @@ class InsectDataset(data.Dataset):
         sample = self.samples[index]
         point_set = sample[0]
         class_id = sample[1]
-        # rel_path = sample[2]
+        class_name = self.id_class_map[class_id]
+        rel_path = sample[2]
 
         if self.random_rotate:
             point_set = rotate_pointcloud(point_set)
@@ -98,11 +100,10 @@ class InsectDataset(data.Dataset):
         # convert numpy array to pytorch Tensor
         point_set = torch.from_numpy(point_set)
         label = torch.from_numpy(np.array([class_id]).astype(np.int64))
-        label = label.squeeze(0)
+        # label = label.squeeze(0)
         
         if self.load_name:
-            class_name = self.id_class_map[class_id]
-            return point_set, label, class_name
+            return point_set, label, class_name, rel_path
         else:
             return point_set, label
 

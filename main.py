@@ -12,6 +12,7 @@ import argparse
 from reconstruction import Reconstruction
 from classification import Classification
 from inference import Inference
+from feature_inference import FeatureInference
 from svm import SVM
 
 
@@ -56,6 +57,8 @@ def get_parser():
                         help='Enables CUDA training')
     parser.add_argument('--eval', action='store_true',
                         help='Evaluate the model')
+    parser.add_argument('--get_activations', action='store_true',
+                        help='Save the feature vector of a trained encoder')
     parser.add_argument('--num_points', type=int, default=2048,
                         help='Num of points to use')
     parser.add_argument('--model_path', type=str, default='', metavar='N',
@@ -66,15 +69,19 @@ def get_parser():
 
 if __name__ == '__main__':
     args = get_parser()
-    if args.eval == False:
+
+    if args.eval == True:
+        inference = Inference(args)
+        feature_dir = inference.run()
+        svm = SVM(feature_dir)
+        svm.run()
+    elif args.get_activations == True:
+        feature_inference = FeatureInference(args)
+        feature_inference.run()
+    else:
         if args.task == 'reconstruct':
             reconstruction = Reconstruction(args)
             reconstruction.run()
         elif args.task == 'classify':
             classification = Classification(args)
             classification.run()
-    else:
-        inference = Inference(args)
-        feature_dir = inference.run()
-        svm = SVM(feature_dir)
-        svm.run()

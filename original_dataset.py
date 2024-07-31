@@ -129,7 +129,7 @@ class OriginalDataset(data.Dataset):
         label = label.squeeze(0)
         
         if self.load_name:
-            return point_set, label, name
+            return point_set, label, name, None
         else:
             return point_set, label
 

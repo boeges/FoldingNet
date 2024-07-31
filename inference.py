@@ -82,6 +82,11 @@ class Inference(object):
         print("Inference set size (train):", self.infer_loader_train.dataset.__len__())
         print("Inference set size (test):", self.infer_loader_test.dataset.__len__())
 
+        # shape of one data sample: (2048, 3)
+        # example: [[-0.09796134  0.5089857   0.24515529], ...]
+        # shape of one label: (1,)
+        # example: [14]
+
         # initialize model
         if args.task == "reconstruct":
             self.model = ReconstructionNet(args)
@@ -114,6 +119,7 @@ class Inference(object):
             elif self.task == "classify":
                 feature = self.model(pts)
             feature_train.append(feature.detach().cpu().numpy().squeeze(1))
+            # print("labels shape:", lbs.cpu().numpy().shape, "values[:3]:", lbs.cpu().numpy())
             lbs_train.append(lbs.cpu().numpy().squeeze(1))
             if ((iter+1) * self.batch_size % 2048) == 0 \
                 or (iter+1) == len(self.infer_loader_train):
@@ -157,7 +163,7 @@ class Inference(object):
                 feature_test = np.concatenate(feature_test, axis=0)
                 lbs_test = np.concatenate(lbs_test, axis=0)
                 f = h5py.File(os.path.join(self.feature_dir, 'test' + str(n) + '.h5'),'w') 
-                f['data'] = feature_test                 
+                f['data'] = feature_test
                 f['label'] = lbs_test
                 f.close()
                 print("Test set {} for SVM saved.".format(n))

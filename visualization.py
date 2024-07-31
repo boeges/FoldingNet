@@ -187,9 +187,9 @@ def visualize(args):
     from dataset import Dataset
     dataset = Dataset(root=args.dataset_root, dataset_name=args.dataset, 
                         num_points=args.num_points, split=args.split, load_name=True)
-
+    
     # load data from dataset
-    pts, lb, n = dataset[args.item]
+    pts, lb, n, rel_path = dataset[args.item]
     print(f"Dataset: {args.dataset}, split: {args.split}, item: {args.item}, category: {n}")
 
     # generate XML file for original point cloud
@@ -212,6 +212,7 @@ def visualize(args):
             points = np.load("gaussian.npy")
         save_path = os.path.join(save_root, args.dataset + '_' + args.split + str(args.item) + '_' + str(n) + '_epoch0.xml')
         mitsuba(points, save_path, clr=args.shape)
+        
 
     # initialize model
     model = ReconstructionNet(args)
@@ -233,6 +234,8 @@ def visualize(args):
             reconstructed_pl, _ = model(pts.view(1, 2048, 3))
             save_path = os.path.join(save_root, model_name[:-4] + '_' + args.dataset + '_' + args.split + str(args.item) + '_' + str(n) + '.xml')
             mitsuba(reconstructed_pl[0].detach().numpy(), save_path, clr=args.shape)
+    
+    print("Saved to", save_root)
 
 
 if __name__ == '__main__':  
@@ -255,7 +258,7 @@ if __name__ == '__main__':
                         choices=['plane', 'sphere', 'gaussian'],
                         help='Shape of points to input decoder, [plane, sphere, gaussian]')
     parser.add_argument('--dataset', type=str, default='shapenetcorev2', metavar='N',
-                        choices=['shapenetcorev2','modelnet40', 'modelnet10'],
+                        choices=['shapenetcorev2','modelnet40', 'modelnet10','insect'],
                         help='Encoder to use, [shapenetcorev2,modelnet40, modelnet10]')
     parser.add_argument('--dataset_root', type=str, default='../dataset', help="Dataset root path")
     parser.add_argument('--num_points', type=int, default=2048,

@@ -125,10 +125,12 @@ class Reconstruction(object):
         start_time = time.time()
         self.model.train()
         if self.model_path != '':
+            # Only works if number in filename has 3 digits?
             start_epoch = self.model_path[-7:-4]
             if start_epoch[0] == '_':
                 start_epoch = start_epoch[1:]
             start_epoch = int(start_epoch)
+            print("Resuming at epoch", start_epoch)
         else:
             start_epoch = 0
         for epoch in range(start_epoch, self.epochs):
