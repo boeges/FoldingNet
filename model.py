@@ -326,7 +326,7 @@ class FoldNet_Decoder(nn.Module):
         super(FoldNet_Decoder, self).__init__()
         if args.num_points == 2048:
             self.m = 2025  # 45 * 45. # 64*64=4096
-        elif args.num_points == 4096 and self.shape=="gaussian":
+        elif args.num_points == 4096 and args.shape=="gaussian":
             self.m = 4096
         else:
             raise RuntimeError("Illegal value for num_points; Must be 2048 or 4096!")
