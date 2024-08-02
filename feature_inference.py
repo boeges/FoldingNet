@@ -20,6 +20,7 @@ import datetime
 from pathlib import Path
 from tqdm import tqdm
 import pandas as pd
+# from torchview import draw_graph
 
 from tensorboardX import SummaryWriter
 
@@ -90,6 +91,12 @@ class FeatureInference(object):
                 lbs = lbs.cuda(self.first_gpu)
 
             output, feature = self.model(pts)
+
+            # vis
+            # model_graph = draw_graph(self.model, input_data=pts, device='cuda', save_graph=True, filename="model", expand_nested=True)
+            # # model_graph.visual_graph
+            # saved_vis = True
+            # exit()
 
             # for each sample add activations to a list
             for activations1, target1, clas1, path1 in zip(

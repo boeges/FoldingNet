@@ -50,7 +50,7 @@ class InsectDataset(data.Dataset):
             use_classes (_type_, optional): Load samples of only these classes. Defaults to None = all classes.
         """
 
-        assert num_points <= 2048 # why?
+        # assert num_points <= 2048 # why?
 
         self.root = Path(root)
         self.dataset_name = self.root.name

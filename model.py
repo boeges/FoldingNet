@@ -7,6 +7,7 @@
 @Time: 2020/3/23 5:39 PM
 """
 
+import math
 import torch
 import torch.nn as nn
 import torch.nn.init as init
@@ -323,11 +324,21 @@ class FoldNet_Encoder(nn.Module):
 class FoldNet_Decoder(nn.Module):
     def __init__(self, args):
         super(FoldNet_Decoder, self).__init__()
-        self.m = 2025  # 45 * 45.
+        if args.num_points == 2048:
+            self.m = 2025  # 45 * 45. # 64*64=4096
+        elif args.num_points == 4096 and self.shape=="gaussian":
+            self.m = 4096
+        else:
+            raise RuntimeError("Illegal value for num_points; Must be 2048 or 4096!")
+        self.mroot = int(math.sqrt(self.m))
         self.shape = args.shape
-        self.meshgrid = [[-0.3, 0.3, 45], [-0.3, 0.3, 45]]
+        self.meshgrid = [[-0.3, 0.3, self.mroot], [-0.3, 0.3, self.mroot]]
         self.sphere = np.load("sphere.npy")
         self.gaussian = np.load("gaussian.npy")
+        print("gaussian shape", self.gaussian.shape)
+        if self.m == 4096:
+            self.gaussian = np.concatenate([ self.gaussian, self.gaussian*np.array([0.01, 0.01, 0.01]), self.gaussian[:46]*np.array([-0.01, -0.01, -0.01]) ])
+        print("gaussian shape", self.gaussian.shape)
         if self.shape == 'plane':
             self.folding1 = nn.Sequential(
                 nn.Conv1d(args.feat_dims+2, args.feat_dims, 1),
