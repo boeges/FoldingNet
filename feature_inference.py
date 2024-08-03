@@ -94,7 +94,6 @@ class FeatureInference(object):
 
             # vis
             # model_graph = draw_graph(self.model, input_data=pts, device='cuda', save_graph=True, filename="model", expand_nested=True)
-            # # model_graph.visual_graph
             # saved_vis = True
             # exit()
 

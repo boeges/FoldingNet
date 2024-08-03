@@ -63,6 +63,8 @@ def get_parser():
                         help='Num of points to use')
     parser.add_argument('--model_path', type=str, default='', metavar='N',
                         help='Path to load model')
+    parser.add_argument('--num_classes', type=int, default=6,
+                        help='Num of output classes of the model for classification')
     args = parser.parse_args()
     return args
 

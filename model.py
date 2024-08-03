@@ -335,10 +335,12 @@ class FoldNet_Decoder(nn.Module):
         self.meshgrid = [[-0.3, 0.3, self.mroot], [-0.3, 0.3, self.mroot]]
         self.sphere = np.load("sphere.npy")
         self.gaussian = np.load("gaussian.npy")
-        print("gaussian shape", self.gaussian.shape)
         if self.m == 4096:
-            self.gaussian = np.concatenate([ self.gaussian, self.gaussian*np.array([0.01, 0.01, 0.01]), self.gaussian[:46]*np.array([-0.01, -0.01, -0.01]) ])
-        print("gaussian shape", self.gaussian.shape)
+            self.gaussian = np.concatenate([ 
+                self.gaussian - np.array([0.05, 0.05, 0.05]), 
+                self.gaussian + np.array([0.05, 0.05, 0.05]), 
+                self.gaussian[:46] + np.array([-0.03, 0.03, -0.03]) ])
+        print("using input gaussian shape", self.gaussian.shape)
         if self.shape == 'plane':
             self.folding1 = nn.Sequential(
                 nn.Conv1d(args.feat_dims+2, args.feat_dims, 1),
@@ -399,6 +401,9 @@ class DGCNN_Cls_Classifier(nn.Module):
             output_channels = 55
         elif args.dataset == 'shapenetpart':
             output_channels = 16
+        else:
+            output_channels = args.num_classes
+            print("Using model output dim", output_channels)
 
         self.linear1 = nn.Linear(args.feat_dims*2, 512, bias=False)
         self.bn6 = nn.BatchNorm1d(512)
