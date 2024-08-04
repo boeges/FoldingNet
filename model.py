@@ -333,8 +333,8 @@ class FoldNet_Decoder(nn.Module):
         self.mroot = int(math.sqrt(self.m))
         self.shape = args.shape
         self.meshgrid = [[-0.3, 0.3, self.mroot], [-0.3, 0.3, self.mroot]]
-        self.sphere = np.load("sphere.npy")
-        self.gaussian = np.load("gaussian.npy")
+        self.sphere = np.load("sphere.npy") # shape (2025, 3)
+        self.gaussian = np.load("gaussian.npy") # shape (2025, 3)
         if self.m == 4096:
             self.gaussian = np.concatenate([ 
                 self.gaussian - np.array([0.05, 0.05, 0.05]), 
@@ -403,7 +403,7 @@ class DGCNN_Cls_Classifier(nn.Module):
             output_channels = 16
         else:
             output_channels = args.num_classes
-            print("Using model output dim", output_channels)
+            print("Using model output dims:", output_channels)
 
         self.linear1 = nn.Linear(args.feat_dims*2, 512, bias=False)
         self.bn6 = nn.BatchNorm1d(512)
