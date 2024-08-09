@@ -19,8 +19,9 @@ class Dataset(data.Dataset):
     Loads either InsectDataset or OriginalDataset.
     """
 
-    def __init__(self, root, dataset_name='modelnet40', 
-            num_points=2048, split='train', load_name=False,
+    def __init__(self, root, dataset_name='insect', 
+            num_points=4096, split='train', split_file=None, load_name=False,
+            classes="6B", use_classes="6B",
             random_rotate=False, random_jitter=False, random_translate=False):
 
         assert dataset_name.lower() in ['shapenetcorev2', 
@@ -28,11 +29,8 @@ class Dataset(data.Dataset):
             "insect"]
 
         if dataset_name.lower() == "insect":
-            classes = ["other","insect","bee","butterfly","dragonfly","wasp"]
-            use_classes = ["insect","bee","butterfly","dragonfly","wasp"]
-            # Load
             self._dataset = InsectDataset(root, 
-                    num_points=num_points, split=split, load_name=load_name,
+                    num_points=num_points, split=split, split_file=split_file, load_name=load_name,
                     random_rotate=random_rotate, random_jitter=random_jitter, random_translate=random_translate,
                     classes=classes, use_classes=use_classes)
         else:

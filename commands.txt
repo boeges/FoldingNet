@@ -16,8 +16,7 @@ CUDA_VISIBLE_DEVICES=1 python visualization.py --dataset_root datasets/ --datase
 
 
 # get activations
-python main.py --get_activations --model_path .\snapshot\Reconstruct_insect_foldnet_gaussian_k20_e2000_feat1024_pts4096\models\insect_2.pkl  --dataset_root ..\..\datasets\insect\100ms_4096pts_fps-ds_sor-nr_norm_shufflet_1\ --encoder foldnet --k 20 --shape gaussian --dataset insect --batch_size 8 --gpu 0 --workers 1 --num_points 4096 --feat_dims 1024
-
+CUDA_VISIBLE_DEVICES=1 python main.py --task feature_inference --model_path .\snapshot\Reconstruct_insect_foldnet_gaussian_k40_e1600_feat1024_augment_3\models\insect_best.pkl  --dataset_root ..\..\datasets\insect\100ms_4096pts_fps-ds_sor-nr_norm_shufflet_3\ --encoder foldnet --k 40 --shape gaussian --dataset insect --batch_size 8 --gpu 0 --workers 1 --num_points 4096 --feat_dims 1024
 
 
 

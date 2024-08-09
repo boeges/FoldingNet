@@ -13,6 +13,7 @@ from reconstruction import Reconstruction
 from classification import Classification
 from inference import Inference
 from feature_inference import FeatureInference
+from feature_svm import FeatureSVM
 from svm import SVM
 
 
@@ -21,8 +22,8 @@ def get_parser():
     parser.add_argument('--exp_name', type=str, default=None, metavar='N',
                         help='Name of the experiment')
     parser.add_argument('--task', type=str, default='reconstruct', metavar='N',
-                        choices=['reconstruct', 'classify'],
-                        help='Experiment task, [reconstruct, classify]')
+                        choices=['reconstruct', 'classify', "feature_inference", "feature_svm"],
+                        help='Experiment task, [reconstruct, classify, feature_inference, feature_svm]')
     parser.add_argument('--encoder', type=str, default='foldingnet', metavar='N',
                         choices=['foldnet', 'dgcnn_cls', 'dgcnn_seg'],
                         help='Encoder to use, [foldingnet, dgcnn_cls, dgcnn_seg]')
@@ -55,16 +56,23 @@ def get_parser():
                         help='Save snapshot interval ')
     parser.add_argument('--no_cuda', action='store_true',
                         help='Enables CUDA training')
-    parser.add_argument('--eval', action='store_true',
-                        help='Evaluate the model')
     parser.add_argument('--get_activations', action='store_true',
                         help='Save the feature vector of a trained encoder')
     parser.add_argument('--num_points', type=int, default=2048,
                         help='Num of points to use')
-    parser.add_argument('--model_path', type=str, default='', metavar='N',
+    parser.add_argument('--model_path', type=str, default='',
                         help='Path to load model')
     parser.add_argument('--num_classes', type=int, default=6,
                         help='Num of output classes of the model for classification')
+    parser.add_argument('--split_file', type=str, default='',
+                        help='File name (or path) specifiing which samples are from the train and test split')
+    parser.add_argument('--activations_file', type=str, default='',
+                        help='File path to the file containing activations; Should be under features/ .')
+    parser.add_argument('--classes', type=str, default="6B", 
+                        help='Names of classes in order! Comma separated class names (e.g. bee,butterfly,...) or a predefined list [6A, 6B, ...] for default class list')
+    parser.add_argument('--use_classes', type=str, default=None, 
+                        help='Names of classes to load samples from. Comma separated class names (e.g. bee,butterfly,...) or a predefined list [6A, 6B, ...] for default class list')
+
     args = parser.parse_args()
     return args
 
@@ -72,18 +80,15 @@ def get_parser():
 if __name__ == '__main__':
     args = get_parser()
 
-    if args.eval == True:
-        inference = Inference(args)
-        feature_dir = inference.run()
-        svm = SVM(feature_dir)
-        svm.run()
-    elif args.get_activations == True:
+    if args.task == 'reconstruct':
+        reconstruction = Reconstruction(args)
+        reconstruction.run()
+    elif args.task == 'classify':
+        classification = Classification(args)
+        classification.run()
+    elif args.task == "feature_inference":
         feature_inference = FeatureInference(args)
         feature_inference.run()
-    else:
-        if args.task == 'reconstruct':
-            reconstruction = Reconstruction(args)
-            reconstruction.run()
-        elif args.task == 'classify':
-            classification = Classification(args)
-            classification.run()
+    elif args.task == "feature_svm":
+        featureSvm = FeatureSVM(args)
+        featureSvm.run()
