@@ -7,3 +7,4 @@ tensorboard/
 mitsuba/
 __pycache__/
 cache/
+sync.ffs_db
