@@ -85,6 +85,9 @@ class InsectDataset(data.Dataset):
             self.use_classes = self.classes
         self.use_classes = InsectDataset.get_class_list(self.use_classes)
 
+        print("classes:    ", self.classes)
+        print("use_classes:", self.use_classes)
+
         # <class_name>:<class_id>
         self.class_id_map = dict(zip(self.classes, range(len(self.classes))))
         # <class_id>:<class_name>

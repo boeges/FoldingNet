@@ -21,7 +21,7 @@ class Dataset(data.Dataset):
 
     def __init__(self, root, dataset_name='insect', 
             num_points=4096, split='train', split_file=None, load_name=False,
-            classes="6B", use_classes="6B",
+            classes=None, use_classes=None,
             random_rotate=False, random_jitter=False, random_translate=False):
 
         assert dataset_name.lower() in ['shapenetcorev2', 

@@ -87,7 +87,9 @@ class Reconstruction(object):
                 num_points=args.num_points,
                 random_translate=args.use_translate,
                 random_rotate=True,
-                random_jitter=args.use_jitter
+                random_jitter=args.use_jitter,
+                classes=args.classes,
+                use_classes=args.use_classes
             )
         self.train_loader = torch.utils.data.DataLoader(
                 self.train_dataset,
