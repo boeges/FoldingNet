@@ -127,7 +127,7 @@ class InsectDataset(data.Dataset):
                     continue
             cla_id = self.class_id_map[clas]
             point_set = np.loadtxt(f, delimiter=',', skiprows=1, max_rows=self.num_points, usecols=(0,1,2)).astype(np.float32)
-            rel_path = str(Path(clas) / f.name)
+            rel_path = clas + "/" + f.name
             self.samples.append( (point_set, cla_id, rel_path) )
         print(f"Loaded dataset from {self.root}; {len(self.samples)} loaded; {skipped_count} skipped (not in use_classes or split file)")
 

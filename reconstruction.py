@@ -106,10 +106,7 @@ class Reconstruction(object):
 
         # load model to gpu
         if not self.no_cuda:
-            if len(self.gpu_ids) != 1:  # multiple gpus
-                self.model = torch.nn.DataParallel(self.model.cuda(self.first_gpu), self.gpu_ids)
-            else:
-                self.model = self.model.cuda(self.gpu_ids[0])
+            self.model = self.model.cuda(self.first_gpu)
         
         # initialize optimizer
         self.parameter = self.model.parameters()
@@ -174,10 +171,7 @@ class Reconstruction(object):
             output, _ = self.model(pts)
 
             # loss
-            if len(self.gpu_ids) != 1:  # multiple gpus
-                loss = self.model.module.get_loss(pts, output)
-            else:
-                loss = self.model.get_loss(pts, output)
+            loss = self.model.get_loss(pts, output)
 
             # backward
             loss.backward()

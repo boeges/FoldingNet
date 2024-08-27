@@ -334,12 +334,14 @@ class FoldNet_Decoder(nn.Module):
         self.shape = args.shape
         self.meshgrid = [[-0.3, 0.3, self.mroot], [-0.3, 0.3, self.mroot]]
         self.sphere = np.load("sphere.npy") # shape (2025, 3)
-        self.gaussian = np.load("gaussian.npy") # shape (2025, 3)
         if self.m == 4096:
-            self.gaussian = np.concatenate([ 
-                self.gaussian - np.array([0.05, 0.05, 0.05]), 
-                self.gaussian + np.array([0.05, 0.05, 0.05]), 
-                self.gaussian[:46] + np.array([-0.03, 0.03, -0.03]) ])
+            # self.gaussian = np.concatenate([ 
+            #     self.gaussian - np.array([0.05, 0.05, 0.05]), 
+            #     self.gaussian + np.array([0.05, 0.05, 0.05]), 
+            #     self.gaussian[:46] + np.array([-0.03, 0.03, -0.03]) ])
+            self.gaussian = np.load("gaussian4096.npy") # shape (4096, 3)
+        else:
+            self.gaussian = np.load("gaussian.npy") # shape (2025, 3)
         print("using input gaussian shape", self.gaussian.shape)
         if self.shape == 'plane':
             self.folding1 = nn.Sequential(
