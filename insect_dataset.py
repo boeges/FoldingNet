@@ -44,13 +44,27 @@ def rotate_pointcloud(pointcloud):
 
 
 class InsectDataset(data.Dataset):
-    # A uses old order; B uses new order
+    # A uses old order; B uses new order; C old order with bumblebee
+    # A
     CLASSES_4A = ["bee","butterfly","dragonfly","wasp"]
     CLASSES_5A = ["bee","butterfly","dragonfly","wasp","insect"]
     CLASSES_6A = ["bee","butterfly","dragonfly","wasp","insect","other"]
-    CLASSES_6B = ["other","insect","bee","butterfly","dragonfly","wasp"]
     CLASSES_7A = ["bee","butterfly","dragonfly","wasp","other","insect","bumblebee"]
+    # B
+    CLASSES_6B = ["other","insect","bee","butterfly","dragonfly","wasp"]
     CLASSES_7B = ["other","insect","bee","butterfly","dragonfly","wasp","bumblebee"]
+    # C
+    CLASSES_5C = ["bee","butterfly","dragonfly","wasp","bumblebee"]
+
+    CLASS_ABBR = {
+        "oth":  "other",            # 0, other objects that are not insects
+        "ins":  "insect",           # 1, generic/unspecified insect
+        "bee":  "bee",              # 2
+        "but":  "butterfly",        # 3
+        "dra":  "dragonfly",        # 4
+        "was":  "wasp",             # 5
+        "bum":  "bumblebee",        # 6
+    }
 
 
     def __init__(self, root, 
@@ -166,14 +180,17 @@ class InsectDataset(data.Dataset):
             classes = InsectDataset.CLASSES_5A
         elif args_classes=="6A":
             classes = InsectDataset.CLASSES_6A
-        elif args_classes=="6B":
-            classes = InsectDataset.CLASSES_6B
         elif args_classes=="7A":
             classes = InsectDataset.CLASSES_7A
+        elif args_classes=="6B":
+            classes = InsectDataset.CLASSES_6B
         elif args_classes=="7B":
             classes = InsectDataset.CLASSES_7B
+        elif args_classes=="5C":
+            classes = InsectDataset.CLASSES_5C
         elif isinstance(args_classes, str) and "," in args_classes:
             classes = args_classes.lower().split(",")
+            classes = [InsectDataset.CLASS_ABBR.get(c, c) for c in classes]
         elif isinstance(args_classes, list):
             classes = args_classes
         else:

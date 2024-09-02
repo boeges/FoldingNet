@@ -52,9 +52,11 @@ class FeatureInference(object):
         self.infer_dataset_test = Dataset(
             root=args.dataset_root,
             dataset_name=args.dataset,
-            split='test',
+            split='all',
             num_points=args.num_points,
-            load_name=True
+            load_name=True,
+            classes=args.classes,
+            use_classes=args.use_classes,
         )
         self.infer_loader_test = torch.utils.data.DataLoader(
             self.infer_dataset_test,
