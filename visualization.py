@@ -249,7 +249,6 @@ def visualize(args):
         df.to_csv(save_path, index=False, header=True, decimal='.', sep=',', float_format='%.3f')
         print("Saved epoch0 PC to", save_path)
         
-
     # initialize model
     model = ReconstructionNet(args)
 
@@ -265,7 +264,7 @@ def visualize(args):
     # save_path = os.path.join(save_root, file[-1][:-4] + args.split + str(args.item) + '_' + str(class_name) + '.xml')
     # mitsuba(reconstructed_pl[0].detach().numpy(), save_path, clr=args.shape)
 
-    save_path = save_root / (sample_name + "reconstruct_" + model_name + '.csv')
+    save_path = save_root / (sample_name + "_reconst_" + model_name + '.csv')
     df = pd.DataFrame(reconstructed_pl, columns=["x","y","t"])
     df.to_csv(save_path, index=False, header=True, decimal='.', sep=',', float_format='%.3f')
     print("Saved reconstruction PC to", save_path)

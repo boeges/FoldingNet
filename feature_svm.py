@@ -127,6 +127,21 @@ class FeatureSVM(object):
         result = clf.predict(test_features)
         result_series = pd.Series(result)
 
+        result_df = test_df[["target_index","target_name","sample_id"]]
+        result_df["pred_index"] = result_series
+        result_df["correct"] = result_df["pred_index"] == result_df["target_index"]
+        print(result_df.head())
+
+        grouped_result_df = result_df.groupby("target_name").agg({"sample_id":"count", "correct":"sum"})
+        grouped_result_df.rename({"sample_id":"samples"}, inplace=True, axis=1)
+        grouped_result_df = grouped_result_df.reindex(["bee","bumblebee","wasp","butterfly","dragonfly","insect"])
+        grouped_result_df["macc"] = grouped_result_df["correct"] / grouped_result_df["samples"]
+        print(grouped_result_df.head())
+
+        print("Latex:", " & ".join([f"{v:.3f}" for v in grouped_result_df["macc"].values]).replace(".",","))
+
+        print("mAcc:", grouped_result_df["macc"].mean())
+
         sum_correct = (result_series == test_labels).sum()
         total_count = len(test_df.index)
         accuracy = sum_correct / total_count

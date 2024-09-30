@@ -13,7 +13,7 @@ CUDA_VISIBLE_DEVICES=2 python main.py --eval --model_path snapshot/Reconstruct_i
 
 # vis
 CUDA_VISIBLE_DEVICES=2 python visualization.py --dataset_root datasets/ --dataset shapenetcorev2 --item 0 --split test --encoder foldnet --k 16 --shape plane --model_path snapshot/Reconstruct_foldnet_plane/models/shapenetcorev2_278.pkl --draw_original --draw_source_points
-
+python visualization.py --dataset_root ..\..\datasets\insect\100ms_4096pts_fps-ds_sor-nr_norm_shufflet_5 --dataset insect --item 0 --split test --encoder foldnet --k 40 --shape gaussian --model_path .\snapshot\foldnet_gaussian_cls5_pts4096_k40_e1200_feat1024_augment_ds5rnd\models\insect_400.pkl --draw_original --draw_source_points --num_points 4096 --feat_dims 1024
 
 # get activations
 CUDA_VISIBLE_DEVICES=2 python main.py --task feature_inference --model_path .\snapshot\Reconstruct_insect_foldnet_gaussian_k40_e1600_feat1024_augment_3\models\insect_best.pkl  --dataset_root ..\..\datasets\insect\100ms_4096pts_fps-ds_sor-nr_norm_shufflet_3\ --encoder foldnet --k 40 --shape gaussian --dataset insect --batch_size 8 --gpu 0 --workers 1 --num_points 4096 --feat_dims 1024
@@ -23,7 +23,7 @@ CUDA_VISIBLE_DEVICES=2 python main.py --task feature_inference --model_path .\sn
 # SVM
 python main.py --task feature_svm --split_file ..\..\datasets\insect\100ms_4096pts_fps-ds_sor-nr_norm_shufflet_3\train_test_split_7030_1.txt --classes 4A --use_classes 4A --activations_file .\snapshot\Reconstruct_insect_foldnet_gaussian_k40_e1600_feat1024_augment_3\features\activations_per_sample_2024-08-09_16-49.csv
 
-
+CUDA_VISIBLE_DEVICES=1 python main.py --task feature_svm --split_file ../../datasets/insect/100ms_4096pts_fps-ds_sor-nr_norm_shufflet_5/train_test_split_7030.txt --classes 5C --use_classes 5C --activations_file .\snapshot\Reconstruct_insect_foldnet_gaussian_k40_e1600_feat1024_augment_3\features\activations_per_sample_2024-08-09_16-49.csv
 
 
 
