@@ -1,4 +1,8 @@
 # Unsupervised Point Cloud Reconstruction for Classific Feature Learning
+
+## Acknowledgments
+This project is based on [UnsupervisedPointCloudReconstruction](https://github.com/antao97/UnsupervisedPointCloudReconstruction) by antao97, licensed under the MIT License.
+
 ## Introduction
 Can unsupervised point cloud reconstruction extract features suitable for classification?
 
